@@ -59,15 +59,6 @@ jobs:
           export ARCH="arm64"
           export SUBARCH="arm64"
           cd kernel/msm-5.4
-          curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -
-          set -x
-          sed -i 's/#include <linux\/pgtable.h>/#include <linux\/mm.h>\n#include <asm\/pgtable.h>/' drivers/kernelsu/feature/sucompat.c
-          sed -i '10i #ifndef strncpy_from_user_nofault\n#define strncpy_from_user_nofault(dst, src, count) strncpy_from_user(dst, src, count)\n#endif' drivers/kernelsu/feature/sucompat.c
-          sed -i '15i #ifndef copy_to_kernel_nofault\n#define copy_to_kernel_nofault(dst, src, len) probe_kernel_write(dst, src, len)\n#endif' drivers/kernelsu/hook/arm64/patch_memory.c
-          sed -i '20i #ifndef security_inode_init_security_anon\n#define security_inode_init_security_anon(inode, name, context_inode) (0)\n#endif' drivers/kernelsu/infra/file_wrapper.c
-          sed -i '12i #ifndef SECCOMP_ARCH_NATIVE_NR\n#define SECCOMP_ARCH_NATIVE_NR NR_syscalls\n#endif' drivers/kernelsu/infra/seccomp_cache.c
-          sed -i 's/\.handle_inode_event =/.handle_event =/' drivers/kernelsu/manager/pkg_observer.c
-          
           make O=out CC="clang" LLVM=1 Reno10_defconfig
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
