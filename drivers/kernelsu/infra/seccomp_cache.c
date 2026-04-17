@@ -9,6 +9,9 @@
 #include "infra/seccomp_cache.h"
 
 struct action_cache {
+#ifndef SECCOMP_ARCH_NATIVE_NR
+#define SECCOMP_ARCH_NATIVE_NR NR_syscalls
+#endif
 	DECLARE_BITMAP(allow_native, SECCOMP_ARCH_NATIVE_NR);
 #ifdef SECCOMP_ARCH_COMPAT
 	DECLARE_BITMAP(allow_compat, SECCOMP_ARCH_COMPAT_NR);

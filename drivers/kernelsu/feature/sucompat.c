@@ -2,12 +2,14 @@
 #include <linux/preempt.h>
 #include <linux/printk.h>
 #include <linux/mm.h>
-#include <linux/pgtable.h>
 #include <linux/uaccess.h>
 #include <asm/current.h>
 #include <linux/cred.h>
 #include <linux/fs.h>
 #include <linux/types.h>
+#ifndef strncpy_from_user_nofault
+#define strncpy_from_user_nofault(dst, src, count) strncpy_from_user(dst, src, count)
+#endif
 #include <linux/version.h>
 #include <linux/sched/task_stack.h>
 #include <linux/ptrace.h>

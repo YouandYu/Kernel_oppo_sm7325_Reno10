@@ -17,6 +17,9 @@
 
 #include "klog.h" // IWYU pragma: keep
 #include "selinux/selinux.h"
+#ifndef security_inode_init_security_anon
+#define security_inode_init_security_anon(inode, name, context_inode) (0)
+#endif
 
 #include "infra/file_wrapper.h"
 

@@ -12,6 +12,9 @@
 #include "linux/stop_machine.h"
 #include "asm/cacheflush.h"
 #include "asm-generic/fixmap.h"
+#ifndef copy_to_kernel_nofault
+#define copy_to_kernel_nofault(dst, src, len) probe_kernel_write(dst, src, len)
+#endif
 
 // https://github.com/fuqiuluo/ovo/blob/f7da411458e87d32438dc14fce5a3313ed0c967e/ovo/mmuhack.c#L21
 
