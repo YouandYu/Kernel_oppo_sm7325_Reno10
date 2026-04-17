@@ -1,7 +1,6 @@
 name: Build Next Kernel
 
 on:
-  push:
   workflow_dispatch:
 
 jobs:
