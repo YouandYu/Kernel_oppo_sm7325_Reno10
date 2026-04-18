@@ -59,6 +59,7 @@ jobs:
           export ARCH="arm64"
           export SUBARCH="arm64"
           cd kernel/msm-5.4
+          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s builtin
           make O=out CC="clang" LLVM=1 Reno10_defconfig
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
