@@ -61,8 +61,8 @@ jobs:
           cd kernel/msm-5.4
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s builtin
           make O=out CC="clang" LLVM=1 Reno10_defconfig
-          sed -i 's/CONFIG_KSU_SUSFS=y/CONFIG_KSU_SUSFS=n/' .config
-          echo "CONFIG_KSU_KPM=y" >> .config
+          sed -i 's/CONFIG_KSU_SUSFS=y/CONFIG_KSU_SUSFS=n/' out/.config
+          echo "CONFIG_KSU_KPM=y" >> out/.config
 
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
