@@ -49,6 +49,11 @@ jobs:
           mv temp_modules/device ./device
           rm -rf temp_modules
 
+      - name: Set Release Info & Custom Version
+        run: |
+          BUILD_DATE=$(date +%Y%m%d)
+          echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
+
       - name: Compile Kernel
         run: |
           export PATH="$(pwd)/compiler/clang-bin/bin:$PATH"
@@ -59,6 +64,7 @@ jobs:
           export ARCH="arm64"
           export SUBARCH="arm64"
           cd kernel/msm-5.4
+          sed -i "s/EXTRAVERSION =/EXTRAVERSION = -SukiSU-Ultra-$BUILD_DATE/g" Makefile
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s builtin
           make O=out CC="clang" LLVM=1 Reno10_defconfig
           sed -i 's/CONFIG_KSU_SUSFS=y/CONFIG_KSU_SUSFS=n/' out/.config
@@ -78,10 +84,24 @@ jobs:
           cp kernel/msm-5.4/out/arch/arm64/boot/Image AnyKernel3/
           
           cd AnyKernel3
-          zip -r9 ../SukiSU-Ultra-Reno10-Kernel.zip * -x .git* README.md *placeholder
+          zip -r9 ../SukiSU-Ultra-Reno10-${{ env.BUILD_DATE }}.zip * -x .git* README.md *placeholder
           
       - name: Upload Flashable Kernel
         uses: actions/upload-artifact@v6
         with:
           name: SukiSU-Ultra_Reno10_Flashable
           path: SukiSU-Ultra-Reno10-Kernel.zip
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.BUILD_DATE }}
+          name: SukiSU-Ultra Kernel for Reno10 (${{ env.BUILD_DATE }})
+          body: |
+            - 编译日期: ${{ env.BUILD_DATE }}
+            - 核心版本: 5.4.254
+            - 包含功能: SukiSU-Ultra (KPM)
+            - 欢迎刷入芜夕wuxi的内核！祝你玩的愉快！
+          files: SukiSU-Ultra-Reno10-${{ env.BUILD_DATE }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
