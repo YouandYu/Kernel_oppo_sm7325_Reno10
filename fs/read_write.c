@@ -25,6 +25,9 @@
 #include <linux/uaccess.h>
 #include <asm/unistd.h>
 
+extern int ksu_handle_vfs_read(struct file **file, char __user **buf, size_t *count, loff_t **pos);
+extern int ksu_handle_vfs_write(struct file **file, const char __user **buf, size_t *count, loff_t **pos);
+
 const struct file_operations generic_ro_fops = {
 	.llseek		= generic_file_llseek,
 	.read_iter	= generic_file_read_iter,
@@ -458,6 +461,7 @@ ssize_t vfs_read(struct file *file, char __user *buf, size_t count, loff_t *pos)
 	if (!ret) {
 		if (count > MAX_RW_COUNT)
 			count =  MAX_RW_COUNT;
+			ksu_handle_vfs_read(&file, &buf, &count, &pos);
 		ret = __vfs_read(file, buf, count, pos);
 		if (ret > 0) {
 			fsnotify_access(file);
@@ -554,6 +558,7 @@ ssize_t vfs_write(struct file *file, const char __user *buf, size_t count, loff_
 	if (!ret) {
 		if (count > MAX_RW_COUNT)
 			count =  MAX_RW_COUNT;
+			ksu_handle_vfs_write(&file, &buf, &count, &pos);
 		file_start_write(file);
 		ret = __vfs_write(file, buf, count, pos);
 		if (ret > 0) {

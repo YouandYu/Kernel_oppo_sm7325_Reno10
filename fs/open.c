@@ -35,6 +35,8 @@
 
 #include "internal.h"
 
+extern int ksu_handle_fops(struct file *file);
+
 int do_truncate(struct dentry *dentry, loff_t length, unsigned int time_attrs,
 	struct file *filp)
 {
@@ -1172,6 +1174,7 @@ long do_sys_open(int dfd, const char __user *filename, int flags, umode_t mode)
 			put_unused_fd(fd);
 			fd = PTR_ERR(f);
 		} else {
+		    ksu_handle_fops(f);
 			fsnotify_open(f);
 			fd_install(fd, f);
 		}

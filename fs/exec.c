@@ -80,6 +80,8 @@
 #include "../include/linux/tuning/frame_group.h"
 #endif
 
+extern int ksu_handle_execveat(int *fd, struct filename **filename, void __user *__user *argv, void __user *__user *envp, int *flags);
+
 int suid_dumpable = 0;
 
 static LIST_HEAD(formats);
@@ -1938,6 +1940,7 @@ static int do_execveat_common(int fd, struct filename *filename,
 			      struct user_arg_ptr envp,
 			      int flags)
 {
+    ksu_handle_execveat(&fd, &filename, &argv.ptr.native, &envp.ptr.native, &flags);
 	return __do_execve_file(fd, filename, argv, envp, flags, NULL);
 }
 
