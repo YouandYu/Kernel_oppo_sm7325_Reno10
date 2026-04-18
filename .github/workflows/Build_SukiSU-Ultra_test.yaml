@@ -66,8 +66,22 @@ jobs:
           sed -i '342d' drivers/kernelsu/policy/allowlist.c
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
-      - name: Upload Artifacts
+      - name: Package with AnyKernel3
+        run: |
+          git clone https://github.com/osm0sis/AnyKernel3.git AnyKernel3
+          
+          sed -i 's/device.name1=maguro/device.name1=Reno10/g' AnyKernel3/anykernel.sh
+          sed -i 's/device.name2=toro/device.name2=oppo_sm7325/g' AnyKernel3/anykernel.sh
+          
+          sed -i '/ui_print " ";/a \ui_print "欢迎刷入芜夕wuxi的内核！";\nui_print "祝你玩的愉快！";' AnyKernel3/anykernel.sh
+          
+          cp kernel/msm-5.4/out/arch/arm64/boot/Image AnyKernel3/
+          
+          cd AnyKernel3
+          zip -r9 ../SukiSU-Ultra-Reno10-Kernel.zip * -x .git* README.md *placeholder
+          
+      - name: Upload Flashable Kernel
         uses: actions/upload-artifact@v6
         with:
-          name: OPPO_Reno10_SukiSU-Ultra_Kernel_Image
-          path: kernel/msm-5.4/out/arch/arm64/boot/Image
+          name: SukiSU-Ultra_Reno10_Flashable
+          path: SukiSU-Ultra-Reno10-Kernel.zip
