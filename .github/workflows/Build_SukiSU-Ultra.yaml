@@ -78,8 +78,7 @@ jobs:
         run: |
           git clone https://github.com/osm0sis/AnyKernel3.git AnyKernel3
           
-          sed -i 's/device.name1=maguro/device.name1=Reno10/g' AnyKernel3/anykernel.sh
-          sed -i 's/device.name2=toro/device.name2=oppo_sm7325/g' AnyKernel3/anykernel.sh
+          sed -i 's/do.devicecheck=1/do.devicecheck=0/g' AnyKernel3/anykernel.sh
           
           sed -i '584s|ui_print " " "Done!";|ui_print " "; ui_print "感谢支持芜夕wuxi内核，刷入完成！"; ui_print "祝你玩的愉快！";|' AnyKernel3/META-INF/com/google/android/update-binary
           
