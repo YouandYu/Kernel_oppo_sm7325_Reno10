@@ -85,6 +85,21 @@ jobs:
           sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY.*/\&\& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
+      - name: Pack Boot Image (New)
+        run: |
+          mkdir -p boot_pack
+          cd boot_pack
+          # 下载 magiskboot (x86_64版)
+          curl -fL https://github.com/tiann/KernelSU/raw/main/tools/magiskboot -o magiskboot
+          chmod +x magiskboot
+          
+          curl -fL "https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/boot_a.img" -o boot_origin.img
+          
+          ./magiskboot unpack boot_origin.img
+          cp ../kernel/msm-5.4/out/arch/arm64/boot/Image kernel
+          ./magiskboot repack boot_origin.img ../boot-SukiSU-Ultra-Reno10-${{ env.BUILD_DATE }}.img
+          cd ..
+
       - name: Package with AnyKernel3
         run: |
           git clone https://github.com/osm0sis/AnyKernel3.git AnyKernel3
@@ -106,13 +121,16 @@ jobs:
       - name: Upload Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ env.BUILD_DATE }}
+          tag_name: ${{ env.BUILD_DATE }}-${{ env.SHORT_SHA }}
           name: SukiSU-Ultra Kernel for Reno10 (${{ env.BUILD_DATE }})
           body: |
-            - 编译日期: ${{ env.BUILD_DATE }}
-            - 核心版本: 5.4.254
-            - 包含功能: SukiSU-Ultra (KPM)
-            - 欢迎刷入芜夕wuxi的内核！祝你玩的愉快！
-          files: SukiSU-Ultra-Reno10-${{ env.BUILD_DATE }}.zip
+            ## 编译完成
+            - **内核版本**: 5.4.254
+            - **SukiSU SHA**: `${{ env.SHORT_SHA }}`
+            - **包含文件**: `boot.img` (直接镜像) 和 `AnyKernel3.zip` (Recovery刷机包)
+            - 欢迎刷入芜夕wuxi的内核！
+          files: |
+            SukiSU-Ultra-Reno10-${{ env.BUILD_DATE }}.zip
+            boot-SukiSU-Ultra-Reno10-${{ env.BUILD_DATE }}.img
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
