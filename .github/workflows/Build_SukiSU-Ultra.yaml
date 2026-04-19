@@ -67,7 +67,6 @@ jobs:
           export ARCH="arm64"
           export SUBARCH="arm64"
           cd kernel/msm-5.4
-          sed -i "s/EXTRAVERSION =/EXTRAVERSION = -SukiSU-Ultra-$BUILD_DATE/g" Makefile
           curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU-Ultra/main/kernel/setup.sh" | bash -s builtin
           make O=out CC="clang" LLVM=1 Reno10_defconfig
           sed -i 's/CONFIG_KSU_SUSFS=y/CONFIG_KSU_SUSFS=n/' out/.config
