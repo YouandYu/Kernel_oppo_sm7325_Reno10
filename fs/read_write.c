@@ -25,6 +25,16 @@
 #include <linux/uaccess.h>
 #include <asm/unistd.h>
 
+#ifdef CONFIG_KSU
+extern int ksu_handle_vfs_read(struct file **file_ptr, char __user **buf_ptr, 
+                               size_t *count_ptr, loff_t **pos_ptr);
+extern int ksu_handle_vfs_write(struct file **file_ptr, const char __user **buf_ptr, 
+                                size_t *count_ptr, loff_t **pos_ptr);
+#else
+static inline int ksu_handle_vfs_read(struct file **f, char __user **b, size_t *c, loff_t **p) { return 0; }
+static inline int ksu_handle_vfs_write(struct file **f, const char __user **b, size_t *c, loff_t **p) { return 0; }
+#endif
+
 const struct file_operations generic_ro_fops = {
 	.llseek		= generic_file_llseek,
 	.read_iter	= generic_file_read_iter,
