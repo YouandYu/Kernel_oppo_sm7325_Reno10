@@ -75,6 +75,9 @@ jobs:
           echo -e "\n#endif /* __KSU_H_KERNEL_COMPAT */" >> drivers/kernelsu/infra/kernel_compat.h
           sed -i '/#define __KSU_H_KERNEL_COMPAT/a #define KSU_COMPAT_USE_STATIC_KEY 1' drivers/kernelsu/infra/kernel_compat.h
           sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY/&& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
+          sed -i '/#define KSU_COMPAT_USE_STATIC_KEY 1/d' drivers/kernelsu/infra/kernel_compat.h
+          sed -i 's/#define KSU_COMPAT_USE_STATIC_KEY$/#define KSU_COMPAT_USE_STATIC_KEY 1/g' drivers/kernelsu/infra/kernel_compat.h
+          sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY.*/\&\& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
       - name: Package with AnyKernel3
