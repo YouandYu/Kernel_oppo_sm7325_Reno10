@@ -114,7 +114,6 @@ jobs:
         run: |
           pwd
           make O=out CC="clang" LLVM=1 Reno10_defconfig
-          sed -i 's/CONFIG_KSU_SUSFS=y/CONFIG_KSU_SUSFS=n/' out/.config
           echo "CONFIG_KSU_KPM=y" >> out/.config
           sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=""/' out/.config
           make O=out CC="clang" LLVM=1 -j$(nproc)
