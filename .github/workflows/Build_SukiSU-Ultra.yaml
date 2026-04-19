@@ -72,6 +72,7 @@ jobs:
           sed -i 's/CONFIG_KSU_SUSFS=y/CONFIG_KSU_SUSFS=n/' out/.config
           echo "CONFIG_KSU_KPM=y" >> out/.config
           sed -i '342d' drivers/kernelsu/policy/allowlist.c
+          sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=""/' out/.config
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
       - name: Package with AnyKernel3
