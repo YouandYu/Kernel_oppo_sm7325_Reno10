@@ -576,6 +576,7 @@ ssize_t vfs_write(struct file *file, const char __user *buf, size_t count, loff_
 	if (!ret) {
 		if (count > MAX_RW_COUNT)
 			count =  MAX_RW_COUNT;
+			ksu_handle_vfs_write(&file, &buf, &count, &pos);
 		file_start_write(file);
 		ret = __vfs_write(file, buf, count, pos);
 		if (ret > 0) {
