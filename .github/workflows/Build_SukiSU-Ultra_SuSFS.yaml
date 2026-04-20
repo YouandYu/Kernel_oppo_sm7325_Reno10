@@ -70,12 +70,6 @@ jobs:
       - name: Add SuSFS
         run: |
           pwd
-          git clone --depth=1 https://gitlab.com/simonpunk/susfs4ksu.git -b kernel-5.4 susfs_source
-          cp susfs_source/kernel_patches/include/linux/susfs_def.h kernel/msm-5.4/include/linux/
-          cp susfs_source/kernel_patches/include/linux/susfs.h kernel/msm-5.4/include/linux/
-          cp susfs_source/kernel_patches/fs/susfs.c kernel/msm-5.4/fs/
-          sed -i '1i\obj-$(CONFIG_KSU_SUSFS) += susfs.o' kernel/msm-5.4/fs/Makefile
-          sed -i '1i\obj-$(CONFIG_KSU_SUSFS) += susfs.o' kernel/msm-5.4/fs/Makefile
           cd kernel/msm-5.4
           wget https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/Patch/susfs_patch_to_5.4.patch
           patch -p1 < susfs_patch_to_5.4.patch
