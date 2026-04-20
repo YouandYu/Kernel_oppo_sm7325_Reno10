@@ -85,6 +85,12 @@ jobs:
           sed -i 's/#define KSU_COMPAT_USE_STATIC_KEY$/#define KSU_COMPAT_USE_STATIC_KEY 1/g' drivers/kernelsu/infra/kernel_compat.h
           sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY.*/\&\& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
           sed -i 's/strncpy_from_user_nofault/ksu_strncpy_from_user_nofault/g' drivers/kernelsu/sulog/event.c
+          sed -i 's/ksu_ksu_strncpy_from_user_nofault/strncpy_from_user_nofault/g' sulog/event.c
+          sed -i 's/ksu_strncpy_from_user_nofault/strncpy_from_user_nofault/g' sulog/event.c
+          sed -i 's/ksu___strncpy_from_user_nofault/strncpy_from_user_nofault/g' sulog/event.c
+          sed -i 's/\bstrncpy_from_user_nofault\b/ksu_strncpy_from_user_nofault/g' sulog/event.c
+          echo "Checking fixed lines in event.c:"
+          grep "strncpy_from_user_nofault" sulog/event.c
 
       - name: Build Kernel
         run: |
