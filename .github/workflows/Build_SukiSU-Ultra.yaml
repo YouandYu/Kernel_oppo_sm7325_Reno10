@@ -123,6 +123,7 @@ jobs:
         with:
           tag_name: ${{ env.BUILD_DATE }}-${{ env.SHORT_SHA }}
           name: SukiSU-Ultra Kernel for Reno10 (${{ env.BUILD_DATE }})
+          target_commitish: ${{ github.sha }}
           body: |
             ## 编译完成
             - **内核版本**: 5.4.254
