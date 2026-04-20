@@ -89,7 +89,7 @@ jobs:
           sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY/&& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
           sed -i '/#define KSU_COMPAT_USE_STATIC_KEY 1/d' drivers/kernelsu/infra/kernel_compat.h
           sed -i 's/#define KSU_COMPAT_USE_STATIC_KEY$/#define KSU_COMPAT_USE_STATIC_KEY 1/g' drivers/kernelsu/infra/kernel_compat.h
-          sed -i 's/\bstrncpy_from_user_nofault\b/ksu_strncpy_from_user_nofault/g' drivers/kernelsu/sulog/event.c
+          sed -i 's/#if defined(CONFIG_KSU_SUSFS) && KSU_COMPAT_USE_STATIC_KEY.*/#if defined(CONFIG_KSU_SUSFS) \&\& defined(KSU_COMPAT_USE_STATIC_KEY)/g' ksud.c
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
       - name: Pack Boot Image
