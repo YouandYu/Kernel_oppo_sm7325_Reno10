@@ -84,6 +84,7 @@ jobs:
           sed -i '/#define KSU_COMPAT_USE_STATIC_KEY 1/d' drivers/kernelsu/infra/kernel_compat.h
           sed -i 's/#define KSU_COMPAT_USE_STATIC_KEY$/#define KSU_COMPAT_USE_STATIC_KEY 1/g' drivers/kernelsu/infra/kernel_compat.h
           sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY.*/\&\& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
+          sed -i 's/strncpy_from_user_nofault/__strncpy_from_user_nofault/g' sulog/event.c
 
       - name: Build Kernel
         run: |
