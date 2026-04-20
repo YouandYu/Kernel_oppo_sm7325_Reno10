@@ -59,7 +59,7 @@ jobs:
 
       - name: Add SuSFS
         run: |
-          git clone https://gitlab.com/simonpunk/susfs4ksu.git susfs-patch
+          git clone https://gitlab.com/simonpunk/susfs4ksu.git susfs-patch -b gki-android12-5.10
           cp susfs-patch/kernel_patches/include/linux/susfs.h kernel/msm-5.4/include/linux/
           cp susfs-patch/kernel_patches/include/linux/susfs_def.h kernel/msm-5.4/include/linux/
           cp susfs-patch/kernel_patches/fs/susfs.c kernel/msm-5.4/fs/
