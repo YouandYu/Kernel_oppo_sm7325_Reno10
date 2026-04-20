@@ -6,6 +6,11 @@ on:
     - cron: '0 0 * * 0'
   push:
 
+permissions:
+  contents: write 
+  actions: write
+  checks: write
+  
 jobs:
   build:
     name: Compile Kernel
