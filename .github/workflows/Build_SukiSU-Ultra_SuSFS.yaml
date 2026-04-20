@@ -93,6 +93,7 @@ jobs:
 
       - name: Build Kernel
         run: |
+          cd kernel/msm-5.4/
           pwd
           make O=out CC="clang" LLVM=1 Reno10_defconfig
           echo "CONFIG_KSU_KPM=y" >> out/.config
