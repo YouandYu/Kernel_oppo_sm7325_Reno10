@@ -85,18 +85,6 @@ jobs:
           sed -i 's/&& KSU_COMPAT_USE_STATIC_KEY.*/\&\& defined(KSU_COMPAT_USE_STATIC_KEY)/g' drivers/kernelsu/runtime/ksud.c
           make O=out CC="clang" LLVM=1 -j$(nproc)
 
-      - name: KPM
-        run: 
-          curl -LSs "https://raw.githubusercontent.com/SukiSU-Ultra/SukiSU_patch/refs/heads/main/kpm/kptools" -o kptools
-          
-          ls
-          
-          chmod +x kptools
-          
-          ./kptools -p -k kptools -i out/arch/arm64/boot/Image -o out/arch/arm64/boot/oImage
-          mv out/arch/arm64/boot/oImage out/arch/arm64/boot/Image
-        
-
       - name: Pack Boot Image
         run: |
           mkdir -p boot_pack
