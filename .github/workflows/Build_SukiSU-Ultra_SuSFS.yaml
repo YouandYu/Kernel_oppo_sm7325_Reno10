@@ -67,6 +67,7 @@ jobs:
             curl https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/susfs_inline_hook_patches.sh -o susfs_inline_hook_patches.sh
             chmod +x susfs_inline_hook_patches.sh
             bash susfs_inline_hook_patches.sh || true
+            echo "obj-\$(CONFIG_KSU_SUSFS) += susfs.o" >> fs/Makefile
       - name: Add SukiSU-Ultra
         run: |
           cd kernel/msm-5.4/
