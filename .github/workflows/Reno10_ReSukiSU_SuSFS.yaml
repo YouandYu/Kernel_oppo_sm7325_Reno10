@@ -79,6 +79,8 @@ jobs:
           sed -i 's/.*current_uid().*/                        (current_creds()->uid.val >= 10000);/g' include/linux/susfs_def.h
           sed -i '1i #include <linux/cred.h>\n#include <linux/uidgid.h>' include/linux/susfs_def.h
           sed -i '/10000/c \                        (__kuid_val(current_uid()) >= 10000);' include/linux/susfs_def.h
+          sed -i '/10000/c \                        __kuid_val(current_uid()) >= 10000);' include/linux/susfs_def.h
+          sed -i 's/return ((/return (/g' include/linux/susfs_def.h
       - name: Build Kernel
         run: |
           pwd
