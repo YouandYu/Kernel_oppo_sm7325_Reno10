@@ -68,7 +68,7 @@ jobs:
             sed -i 's/current_uid().val/current_uid()/g' include/linux/susfs_def.h
             sed -i 's/current_uid() >= 10000/__kuid_val(current_uid()) >= 10000/g' include/linux/susfs_def.h
             sed -i 's/current_uid().val/__kuid_val(current_uid())/g' include/linux/susfs_def.h
-            cat <<EOF > kernel/msm-5.4/fs/susfs/susfs.c
+            cat <<EOF > kernel/msm-5.4/fs/susfs.c
             #include <linux/types.h>
             #include <linux/kernel.h>
             #include <linux/uidgid.h>
