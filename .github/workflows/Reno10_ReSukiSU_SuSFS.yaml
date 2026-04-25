@@ -68,9 +68,31 @@ jobs:
             sed -i 's/current_uid().val/current_uid()/g' include/linux/susfs_def.h
             sed -i 's/current_uid() >= 10000/__kuid_val(current_uid()) >= 10000/g' include/linux/susfs_def.h
             sed -i 's/current_uid().val/__kuid_val(current_uid())/g' include/linux/susfs_def.h
-            sed -i 's/handle_inode_event/handle_event/g' fs/susfs.c
-            sed -i '1370,1385s/^\/*/\/\//' fs/susfs.c
-            sed -i '/int susfs_handle_sdcard_inode_event/,/}/c\int susfs_handle_sdcard_inode_event(struct fsnotify_group *group, struct inode *inode, u32 mask, const void *data, int data_type, const struct qstr *file_name, u32 cookie, struct fsnotify_iter_info *iter_info) { return 0; }' fs/susfs.c
+            cat <<EOF > kernel/msm-5.4/fs/susfs/susfs.c
+            #include <linux/types.h>
+            #include <linux/kernel.h>
+            #include <linux/uidgid.h>
+            #include <linux/cred.h>
+            void susfs_init(void) { pr_info("SuSFS: 5.4 Kernel Stub Initialized\n"); }
+            bool susfs_is_sdcard_android_data_not_decrypted(void) { return false; }
+            void susfs_start_sdcard_monitor_fn(void) {}
+            void susfs_run_sus_path_loop(void) {}
+            void susfs_add_sus_kstat(void) {}
+            void susfs_add_open_redirect(void) {}
+            void susfs_add_sus_map(void) {}
+            void susfs_enable_log(bool enable) {}
+            void susfs_set_cmdline_or_bootconfig(void) {}
+            void susfs_show_version(void) { pr_info("SuSFS: v1.5.1-5.4-Stub\n"); }
+            void susfs_get_enabled_features(void) {}
+            void susfs_show_variant(void) { pr_info("SuSFS: ReSukiSU-Compatible\n"); }
+            void susfs_add_sus_path(void) {}
+            void susfs_add_sus_path_loop(void) {}
+            void susfs_set_hide_sus_mnts_for_non_su_procs(bool enable) {}
+            void susfs_update_sus_kstat(void) {}
+            void susfs_set_uname(void) {}
+            void susfs_set_avc_log_spoofing(bool enable) {}
+            int susfs_handle_sdcard_inode_event(void) { return 0; }
+            EOF
       
       - name: Add ReSukiSU
         run: |
