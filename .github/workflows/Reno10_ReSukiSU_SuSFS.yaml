@@ -68,7 +68,6 @@ jobs:
             sed -i 's/current_uid().val/current_uid()/g' include/linux/susfs_def.h
             sed -i 's/current_uid() >= 10000/__kuid_val(current_uid()) >= 10000/g' include/linux/susfs_def.h
             sed -i 's/current_uid().val/__kuid_val(current_uid())/g' include/linux/susfs_def.h
-            grep -q "obj-y += susfs/" fs/Makefile || echo "obj-y += susfs/" >> fs/Makefile
       
       - name: Add ReSukiSU
         run: |
