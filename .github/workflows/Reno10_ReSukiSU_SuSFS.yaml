@@ -55,11 +55,11 @@ jobs:
       - name: Add SuSFS
         run: |
           git clone https://gitlab.com/simonpunk/susfs4ksu.git susfs-patch -b gki-android12-5.10
-          mkdir -p kernel/msm-5.4/fs/susfs
           cp susfs-patch/kernel_patches/include/linux/susfs.h kernel/msm-5.4/include/linux/
           cp susfs-patch/kernel_patches/include/linux/susfs_def.h kernel/msm-5.4/include/linux/
-          cp susfs-patch/kernel_patches/fs/susfs.c kernel/msm-5.4/fs/susfs/
-          echo "obj-y += susfs.o" > kernel/msm-5.4/fs/susfs/Makefile
+          cp susfs-patch/kernel_patches/fs/susfs.c kernel/msm-5.4/fs
+          echo "obj-y += susfs.o" > kernel/msm-5.4/fs/Makefile
+          
           pwd
           cd kernel/msm-5.4
             curl https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/susfs_inline_hook_patches.sh -o susfs_inline_hook_patches.sh
