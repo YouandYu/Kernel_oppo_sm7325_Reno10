@@ -98,7 +98,9 @@ jobs:
           fi
           cp ../kernel/msm-5.4/out/arch/arm64/boot/Image kernel
           ./magiskboot repack boot_origin.img ../boot-ReSukiSU-Reno10-${{ env.BUILD_DATE }}.img
+          pwd
           cd ..
+          pwd
           
       - name: Upload Flashable Kernel
         uses: actions/upload-artifact@v6
@@ -118,6 +120,6 @@ jobs:
             - 欢迎刷入芜夕wuxi的内核！祝你玩的愉快！
           files: |
               ReSukiSU-Reno10-${{ env.BUILD_DATE }}.zip
-              boot_pack/boot-ReSukiSU-Reno10-${{ env.BUILD_DATE }}.img
+              boot-ReSukiSU-Reno10-${{ env.BUILD_DATE }}.img
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
