@@ -87,7 +87,9 @@ jobs:
           echo "CONFIG_KSU_KPM=y" >> out/.config
           sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=""/' out/.config
           ./scripts/config --file out/.config \
-            -d CONFIG_KSU_SUSFS
+            -e CONFIG_KSU_SUSFS  \
+            -d CONFIG_KSU_TRACEPOINT_HOOK \
+            -e CONFIG_KSU_MANUAL_HOOK
           make O=out CC="clang" LLVM=1 -j$(nproc)
           
       - name: Pack Boot Image
