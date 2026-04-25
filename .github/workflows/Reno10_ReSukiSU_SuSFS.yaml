@@ -63,6 +63,11 @@ jobs:
             curl https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/susfs_inline_hook_patches.sh -o susfs_inline_hook_patches.sh
             chmod +x susfs_inline_hook_patches.sh
             bash susfs_inline_hook_patches.sh || true
+
+            find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/current_uid().val/__kuid_val(current_uid())/g' {} +
+            find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/current_gid().val/__kgid_val(current_gid())/g' {} +
+            find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/\([a-zA-Z0-9_]*->uid\)\.val/__kuid_val(\1)/g' {} +
+            find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/\([a-zA-Z0-9_]*->gid\)\.val/__kgid_val(\1)/g' {} +
       - name: Add SukiSU-Ultra
         run: |
           cd kernel/msm-5.4/
