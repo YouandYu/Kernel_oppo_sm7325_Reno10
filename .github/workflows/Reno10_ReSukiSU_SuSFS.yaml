@@ -70,6 +70,7 @@ jobs:
             find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/\([a-zA-Z0-9_]*->gid\)\.val/__kgid_val(\1)/g' {} +
             find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/__kuid_val(current_uid())/current_uid()/g' {} +
             find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/__kgid_val(current_gid())/current_gid()/g' {} +
+            find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/current_uid() >=/KSU_UID_VAL(current_uid()) >=/g' {} +
       - name: Add ReSukiSU
         run: |
           cd kernel/msm-5.4/
