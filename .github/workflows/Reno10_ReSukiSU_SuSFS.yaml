@@ -75,6 +75,8 @@ jobs:
           curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/mainline/Patches/syscall_hook_patches.sh" -o syscall_hook_patches.sh
           chmod +x syscall_hook_patches.sh
           bash syscall_hook_patches.sh
+          sed -i '1i #include <linux/cred.h>\n#include <linux/uidgid.h>' drivers/kernelsu/core/init.c
+          sed -i 's/.*current_uid().*/                        (current_creds()->uid.val >= 10000);/g' include/linux/susfs_def.h
       - name: Build Kernel
         run: |
           pwd
