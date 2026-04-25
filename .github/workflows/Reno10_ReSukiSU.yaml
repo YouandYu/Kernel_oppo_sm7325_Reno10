@@ -77,7 +77,7 @@ jobs:
           sed -i '584s|ui_print " " "Done!";|ui_print " "; ui_print "感谢支持芜夕wuxi内核，刷入完成！"; ui_print "祝你玩的愉快！";|' AnyKernel3/META-INF/com/google/android/update-binary
           
           cp kernel/msm-5.4/out/arch/arm64/boot/Image AnyKernel3/
-          mkdir -p AnyKernel3/modules/system/lib/modules
+          mkdir -p AnyKernel3/modules/vendor/lib/modules
           find kernel/msm-5.4/out/ -name "*.ko" -exec cp {} AnyKernel3/modules/vendor/lib/modules/ \;
           
           cd AnyKernel3
