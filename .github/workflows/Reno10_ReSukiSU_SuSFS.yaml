@@ -1,4 +1,4 @@
-name: Build SukiSU-Ultra SuSFS Kernel
+name: Build ReSukiSU SuSFS Kernel
 
 on:
   workflow_dispatch:
@@ -67,7 +67,7 @@ jobs:
         run: |
           cd kernel/msm-5.4/
           pwd
-          curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
+          curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash -s susfs-ksud
           curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/mainline/Patches/syscall_hook_patches.sh" -o syscall_hook_patches.sh
           chmod +x syscall_hook_patches.sh
           bash syscall_hook_patches.sh
@@ -86,6 +86,8 @@ jobs:
           make O=out CC="clang" LLVM=1 Reno10_defconfig
           echo "CONFIG_KSU_KPM=y" >> out/.config
           sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=""/' out/.config
+          ./scripts/config --file out/.config \
+            -d CONFIG_KSU_SUSFS
           make O=out CC="clang" LLVM=1 -j$(nproc)
           
       - name: Pack Boot Image
