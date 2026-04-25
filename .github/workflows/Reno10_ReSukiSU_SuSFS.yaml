@@ -71,14 +71,7 @@ jobs:
             find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/__kuid_val(current_uid())/current_uid()/g' {} +
             find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/__kgid_val(current_gid())/current_gid()/g' {} +
             find . -type f \( -name "*.c" -o -name "*.h" \) -exec sed -i 's/current_uid() >=/KSU_UID_VAL(current_uid()) >=/g' {} +
-            sed -i '1i\
-#include <linux/uidgid.h>\n\
-#ifndef KSU_UID_VAL\n\
-#define KSU_UID_VAL(uid) (__builtin_types_compatible_p(typeof(uid), kuid_t) ? __kuid_val(uid) : (uid))\n\
-#endif\n\
-#ifndef KSU_GID_VAL\n\
-#define KSU_GID_VAL(gid) (__builtin_types_compatible_p(typeof(gid), kgid_t) ? __kgid_val(gid) : (gid))\n\
-#endif\n' include/linux/susfs_def.h
+            printf '#include <linux/uidgid.h>\n\n#ifndef KSU_UID_VAL\n#define KSU_UID_VAL(uid) (__builtin_types_compatible_p(typeof(uid), kuid_t) ? __kuid_val(uid) : (uid))\n#endif\n\n#ifndef KSU_GID_VAL\n#define KSU_GID_VAL(gid) (__builtin_types_compatible_p(typeof(gid), kgid_t) ? __kgid_val(gid) : (gid))\n#endif\n\n' | cat - include/linux/susfs_def.h > temp && mv temp include/linux/susfs_def.h
       - name: Add ReSukiSU
         run: |
           cd kernel/msm-5.4/
