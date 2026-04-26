@@ -81,6 +81,8 @@ jobs:
           find kernel/msm-5.4/out/ -name "*.ko" -exec cp {} AnyKernel3/modules/vendor/lib/modules/ \;
           
           cd AnyKernel3
+          rm anykernel.sh
+          curl https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/anykernel.sh -o anykernel.sh
           zip -r9 ../ReSukiSU-Reno10-${{ env.BUILD_DATE }}.zip * -x .git* README.md *placeholder
 
       - name: Pack Boot Image
