@@ -58,7 +58,7 @@ jobs:
           cp susfs-patch/kernel_patches/include/linux/susfs.h kernel/msm-5.4/include/linux/
           cp susfs-patch/kernel_patches/include/linux/susfs_def.h kernel/msm-5.4/include/linux/
           cp susfs-patch/kernel_patches/fs/susfs.c kernel/msm-5.4/fs
-          echo "obj-y += susfs.o" > kernel/msm-5.4/fs/Makefile
+          echo "obj-y += susfs.o" >> kernel/msm-5.4/fs/Makefile
           
           pwd
           cd kernel/msm-5.4
