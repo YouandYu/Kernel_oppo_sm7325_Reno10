@@ -175,7 +175,8 @@ jobs:
             - 包含功能: ReSukiSU
             - 欢迎刷入芜夕wuxi的内核！祝你玩的愉快！
             - 文件：分为带SuSFS的和不带SukiSU的，zip为ak3包，img文件为打包好的镜像
-          files: ReSukiSU-SuSFS-Reno10-${{ env.BUILD_DATE }}.zip
-                 boot-ReSukiSU-SuSFS-Reno10-${{ env.BUILD_DATE }}.img
+          files: |
+                ReSukiSU-SuSFS-Reno10-${{ env.BUILD_DATE }}.zip
+                boot-ReSukiSU-SuSFS-Reno10-${{ env.BUILD_DATE }}.img
           env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
