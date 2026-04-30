@@ -82,7 +82,7 @@ jobs:
           
           cd AnyKernel3
           rm anykernel.sh
-          curl https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/anykernel.sh -o anykernel.sh
+          wget https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/anykernel.sh
           zip -r9 ../ReSukiSU-Reno10-${{ env.BUILD_DATE }}.zip * -x .git* README.md *placeholder
 
       - name: Pack Boot Image
