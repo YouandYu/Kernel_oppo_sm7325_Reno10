@@ -52,11 +52,6 @@ jobs:
         run: |
           BUILD_DATE=$(date +%Y%m%d)
           echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
-
-      - name: Add Docker
-        run: |
-          cd kernel/msm-5.4
-          git clone https://github.com/tomxi1997/lxc-docker-support-for-android.git utils
           
       - name: rekernel
         run: |
@@ -78,11 +73,12 @@ jobs:
           export ARCH="arm64"
           export SUBARCH="arm64"
           cd kernel/msm-5.4
+          sed -i '/source "utils\/Kconfig"/d' Kconfig
           curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
           curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/mainline/Patches/syscall_hook_patches.sh" -o syscall_hook_patches.sh
           chmod +x syscall_hook_patches.sh
           bash syscall_hook_patches.sh
-          make O=out CC="clang" LLVM=1 Reno10_defconfig
+          make O=out CC="clang" LLVM=1 Reno10-Docker_defconfig
           ./scripts/config --file out/.config \
             -d CONFIG_KSU_TRACEPOINT_HOOK \
             -e CONFIG_KSU_MANUAL_HOOK  \
