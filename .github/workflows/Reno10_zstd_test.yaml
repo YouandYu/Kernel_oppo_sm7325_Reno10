@@ -93,6 +93,13 @@ jobs:
             -e 's/\<zstd_cstream_workspace_bound\>/ZSTD_CStreamWorkspaceBound/g' \
             -e 's/\<zstd_dstream_workspace_bound\>/ZSTD_DStreamWorkspaceBound/g' \
             crypto/zstd.c
+
+            sed -i -e 's/&params\.cParams/params.cParams/g' \
+              -e 's/ZSTD_CStreamWorkspaceBound(\([^)]*\))/ZSTD_CStreamWorkspaceBound(\1)/g' \
+              -e 's/ZSTD_DStreamWorkspaceBound()/ZSTD_DStreamWorkspaceBound(1 << 20)/g' \
+              -e 's/ZSTD_initCStream(\([^,]*\), *\([^)]*\))/ZSTD_initCStream(params, \1, \2)/g' \
+              -e 's/ZSTD_initDStream(\([^,]*\), *\([^)]*\))/ZSTD_initDStream(1 << 20, \1, \2)/g' \
+              crypto/zstd.c
           
       - name: Compile Kernel
         run: |
