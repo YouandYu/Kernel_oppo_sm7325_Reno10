@@ -93,7 +93,7 @@ jobs:
             --enable NETFILTER_XT_MATCH_ADDRTYPE \
             --enable VXLAN --enable BRIDGE_VLAN_FILTERING \
             --enable IPVLAN --enable MACVLAN \
-            --enable BTRFS_FS --enable DM_THIN_PROVISIONING
+            --enable DM_THIN_PROVISIONING
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
         run: |
