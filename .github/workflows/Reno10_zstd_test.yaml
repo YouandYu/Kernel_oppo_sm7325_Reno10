@@ -77,13 +77,17 @@ jobs:
           sed -i 's/zstd_dctx/ZSTD_DStream/g' crypto/zstd.c
           sed -i 's/zstd_parameters/ZSTD_parameters/g' crypto/zstd.c
           
-          sed -i 's/zstd_init_cctx(/ZSTD_initCStream(/g' crypto/zstd.c
-          sed -i 's/zstd_init_dctx(/ZSTD_initDStream(/g' crypto/zstd.c
-          sed -i 's/zstd_cctx_workspace_bound(/ZSTD_CStreamWorkspaceBound(/g' crypto/zstd.c
-          sed -i 's/zstd_dctx_workspace_bound(/ZSTD_DStreamWorkspaceBound(/g' crypto/zstd.c
-          sed -i 's/zstd_compress_cctx(/ZSTD_compressStream(/g' crypto/zstd.c
-          sed -i 's/zstd_decompress_dctx(/ZSTD_decompressStream(/g' crypto/zstd.c
-          sed -i 's/zstd_is_error(/ZSTD_isError(/g' crypto/zstd.c
+          sed -i \
+            -e 's/\<zstd_cctx\>/ZSTD_CStream/g' \
+            -e 's/\<zstd_dctx\>/ZSTD_DStream/g' \
+            -e 's/\<zstd_parameters\>/ZSTD_parameters/g' \
+            -e 's/\<zstd_init_cstream\>/ZSTD_initCStream/g' \
+            -e 's/\<zstd_init_dstream\>/ZSTD_initDStream/g' \
+            -e 's/\<zstd_compress_cctx\>/ZSTD_compressStream/g' \
+            -e 's/\<zstd_decompress_dctx\>/ZSTD_decompressStream/g' \
+            -e 's/\<zstd_cstream_workspace_bound\>/ZSTD_CStreamWorkspaceBound/g' \
+            -e 's/\<zstd_dstream_workspace_bound\>/ZSTD_DStreamWorkspaceBound/g' \
+            crypto/zstd.c
           
       - name: Compile Kernel
         run: |
