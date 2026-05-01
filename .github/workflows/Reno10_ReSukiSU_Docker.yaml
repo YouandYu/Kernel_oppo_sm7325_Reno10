@@ -84,6 +84,16 @@ jobs:
             -e CONFIG_KSU_MANUAL_HOOK  \
             -e CONFIG_DOCKER
           ./scripts/config --file out/.config --enable NET --enable INET --enable NETFILTER --enable NETFILTER_XTABLES --enable NETFILTER_ADVANCED --enable IP_NF_MANGLE --enable NETFILTER_XT_TARGET_CHECKSUM
+          ./scripts/config --file out/.config \
+            --enable PID_NS --enable IPC_NS --enable POSIX_MQUEUE \
+            --enable USER_NS \
+            --enable CGROUP_PIDS --enable CGROUP_DEVICE --enable CGROUP_SCHED \
+            --enable CPUSETS --enable MEMCG --enable BLK_CGROUP \
+            --enable BRIDGE_NETFILTER \
+            --enable NETFILTER_XT_MATCH_ADDRTYPE \
+            --enable VXLAN --enable BRIDGE_VLAN_FILTERING \
+            --enable IPVLAN --enable MACVLAN \
+            --enable BTRFS_FS --enable DM_THIN_PROVISIONING
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
         run: |
