@@ -70,6 +70,9 @@ jobs:
           cp -r msm-5.10/lib/zstd kernel/msm-5.4/lib/.
           rm -f kernel/msm-5.4/include/linux/zstd*.h
           cp -r msm-5.10/include/linux/zstd*.h kernel/msm-5.4/include/linux/
+          cd kernel/msm-5.4/
+          sed -i 's/zstd_init_cstream(&params, 0, workspace, workspace_size)/ZSTD_initCStream(&params, 0)/g' fs/f2fs/compress.c
+          sed -i 's/zstd_init_dstream(max_window_size, workspace, workspace_size)/ZSTD_initDStream()/g' fs/f2fs/compress.c
           
       - name: Compile Kernel
         run: |
