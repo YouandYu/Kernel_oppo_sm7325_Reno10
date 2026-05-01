@@ -59,6 +59,9 @@ jobs:
           curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/Rekernel/rekernel_patches.sh" -o rekernel_patches.sh
           chmod +x rekernel_patches.sh
           bash rekernel_patches.sh
+          mkdir -p drivers/rekernel
+          curl https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/Rekernel/rekernel_extra.patch -o rekernel_extra.patch
+          patch -p1 < rekernel_extra.patch || true
           
       - name: Compile Kernel
         run: |
