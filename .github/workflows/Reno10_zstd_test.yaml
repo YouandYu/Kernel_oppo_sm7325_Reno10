@@ -73,6 +73,17 @@ jobs:
           cd kernel/msm-5.4/
           sed -i 's/zstd_init_cstream(&params, 0, workspace, workspace_size)/ZSTD_initCStream(&params, 0)/g' fs/f2fs/compress.c
           sed -i 's/zstd_init_dstream(max_window_size, workspace, workspace_size)/ZSTD_initDStream()/g' fs/f2fs/compress.c
+          sed -i 's/zstd_cctx/ZSTD_CStream/g' crypto/zstd.c
+          sed -i 's/zstd_dctx/ZSTD_DStream/g' crypto/zstd.c
+          sed -i 's/zstd_parameters/ZSTD_parameters/g' crypto/zstd.c
+          
+          sed -i 's/zstd_init_cctx(/ZSTD_initCStream(/g' crypto/zstd.c
+          sed -i 's/zstd_init_dctx(/ZSTD_initDStream(/g' crypto/zstd.c
+          sed -i 's/zstd_cctx_workspace_bound(/ZSTD_CStreamWorkspaceBound(/g' crypto/zstd.c
+          sed -i 's/zstd_dctx_workspace_bound(/ZSTD_DStreamWorkspaceBound(/g' crypto/zstd.c
+          sed -i 's/zstd_compress_cctx(/ZSTD_compressStream(/g' crypto/zstd.c
+          sed -i 's/zstd_decompress_dctx(/ZSTD_decompressStream(/g' crypto/zstd.c
+          sed -i 's/zstd_is_error(/ZSTD_isError(/g' crypto/zstd.c
           
       - name: Compile Kernel
         run: |
