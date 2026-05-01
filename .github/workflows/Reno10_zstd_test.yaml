@@ -68,6 +68,8 @@ jobs:
           git clone https://github.com/oppo-source/android_kernel_oppo_sm8450.git msm-5.10 --depth=1
           rm -r kernel/msm-5.4/lib/zstd
           cp -r msm-5.10/lib/zstd kernel/msm-5.4/lib/.
+          rm -f kernel/msm-5.4/include/linux/zstd*.h
+          cp -r msm-5.10/include/linux/zstd*.h kernel/msm-5.4/include/linux/
           
       - name: Compile Kernel
         run: |
