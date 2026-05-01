@@ -52,6 +52,14 @@ jobs:
         run: |
           BUILD_DATE=$(date +%Y%m%d)
           echo "BUILD_DATE=$BUILD_DATE" >> $GITHUB_ENV
+
+      - name: rekernel
+        run: |
+          cd kernel/msm5.4
+          curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/Rekernel/rekernel_patches.sh" -o rekernel_patches.sh
+          chmod +x rekernel_patches.sh
+          bash rekernel_patches.sh
+          
       - name: Compile Kernel
         run: |
           export PATH="$(pwd)/compiler/clang-bin/bin:$PATH"
