@@ -1,4 +1,4 @@
-name: Build ReSukiSU and Docker Kernel
+name: Build ZSTD test Kernel
 
 on:
   workflow_dispatch:
