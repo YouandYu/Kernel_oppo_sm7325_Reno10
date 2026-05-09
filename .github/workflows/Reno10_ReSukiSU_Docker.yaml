@@ -87,7 +87,8 @@ jobs:
             -e CONFIG_USER_NS \
             -e CONFIG_PID_NS \
             -e CONFIG_IPC_NS \
-            -e CONFIG_CHECKPOINT_RESTORE
+            -e CONFIG_CHECKPOINT_RESTORE \
+            -e CONFIG_SYSVIPC
           # ==========================================
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
