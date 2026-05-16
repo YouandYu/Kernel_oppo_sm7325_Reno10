@@ -88,7 +88,7 @@ jobs:
             -e CONFIG_KSU_MANUAL_HOOK
           # ==== Enable namespaces for Droidspaces ====
           ./scripts/config --file out/.config \
-            -e CONFIG_USER_NS \
+            -d CONFIG_USER_NS \
             -e CONFIG_PID_NS \
             -e CONFIG_IPC_NS \
             -e CONFIG_CHECKPOINT_RESTORE \
@@ -100,7 +100,7 @@ jobs:
             -e CONFIG_MEMCG=y \
             -e CONFIG_CGROUP_DEVICE=y \
             -e CONFIG_CGROUP_FREEZER=y \
-            -e CONFIG_CGROUP_SCHED=y
+            -e CONFIG_CGROUP_SCHED=y 
           # ==========================================
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
