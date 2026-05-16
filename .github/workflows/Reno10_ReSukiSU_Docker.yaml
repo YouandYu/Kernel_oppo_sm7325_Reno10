@@ -135,7 +135,13 @@ jobs:
           pwd
           cd ..
           pwd
-          
+
+      - name: Upload Flashable Kernel
+        uses: actions/upload-artifact@v6
+        with:
+          name: ReSukiSU_Reno10_Docker.img
+          path: boot-ReSukiSU-Reno10-Docker-${{ env.BUILD_DATE }}.img
+
       - name: Upload Flashable Kernel
         uses: actions/upload-artifact@v6
         with:
