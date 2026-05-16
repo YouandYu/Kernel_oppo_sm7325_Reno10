@@ -92,7 +92,15 @@ jobs:
             -e CONFIG_PID_NS \
             -e CONFIG_IPC_NS \
             -e CONFIG_CHECKPOINT_RESTORE \
-            -e CONFIG_SYSVIPC
+            -e CONFIG_SYSVIPC \
+            -e CONFIG_CGROUP_CPU=y \
+            -e CONFIG_CGROUP_CPUACCT=y \
+            -e CONFIG_CPUSETS=y \
+            -e CONFIG_CGROUP_PIDS=y \
+            -e CONFIG_MEMCG=y \
+            -e CONFIG_CGROUP_DEVICE=y \
+            -e CONFIG_CGROUP_FREEZER=y \
+            -e CONFIG_CGROUP_SCHED=y
           # ==========================================
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
