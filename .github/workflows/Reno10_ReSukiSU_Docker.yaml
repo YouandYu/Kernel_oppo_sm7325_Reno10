@@ -101,13 +101,6 @@ jobs:
             -e CONFIG_CGROUP_DEVICE=y \
             -e CONFIG_CGROUP_FREEZER=y \
             -e CONFIG_CGROUP_SCHED=y
-          sed -i 's/^# CONFIG_CGROUP_CPUACCT is not set/CONFIG_CGROUP_CPUACCT=y/' out/.config
-          sed -i 's/^# CONFIG_CPUSETS is not set/CONFIG_CPUSETS=y/' out/.config
-          sed -i 's/^# CONFIG_CGROUP_PIDS is not set/CONFIG_CGROUP_PIDS=y/' out/.config
-          sed -i 's/^# CONFIG_MEMCG is not set/CONFIG_MEMCG=y/' out/.config
-          sed -i 's/^# CONFIG_CGROUP_DEVICE is not set/CONFIG_CGROUP_DEVICE=y/' out/.config
-          sed -i 's/^# CONFIG_CGROUP_FREEZER is not set/CONFIG_CGROUP_FREEZER=y/' out/.config
-          sed -i 's/^# CONFIG_CGROUP_SCHED is not set/CONFIG_CGROUP_SCHED=y/' out/.config
           # ==========================================
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
