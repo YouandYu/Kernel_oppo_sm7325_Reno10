@@ -1,4 +1,4 @@
-name: Build ReSukiSU Docker Kernel
+name: Build ReSukiSU Docker test Kernel
 
 on:
   workflow_dispatch:
@@ -73,16 +73,24 @@ jobs:
           export ARCH="arm64"
           export SUBARCH="arm64"
           cd kernel/msm-5.4
+          echo "添加docker补丁中"
+          rm fs/overlayfs/util.c
+          curl -LSs "https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/util.c" -o fs/overlayfs/util.c
+          rm kernel/module.c
+          curl -LSs "https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/module.c" -o kernel/module.c
+          rm arch/arm64/configs/Reno10-Docker_defconfig
+          curl -LSs "https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/Reno10-Docker_defconfig" -o arch/arm64/configs/Reno10-Docker_defconfig
           rm include/linux/sched/user.h
           curl -LSs https://raw.githubusercontent.com/ravindu644/Droidspaces-OSS/refs/heads/main/Documentation/resources/kernel-patches/GKI/below-kernel-6.12/001.GKI-below-6.12-fix_sysvipc_kabi_3_4_5.patch -o 001.GKI-below-6.12-fix_sysvipc_kabi_3_4_5.patch
           curl -LSs https://github.com/miaizhe/Kernel_oppo_sm7325_Reno10/releases/download/boot/user.h -o include/linux/sched/user.h
           patch -p1 < 001.GKI-below-6.12-fix_sysvipc_kabi_3_4_5.patch
+          echo "添加docker补丁完成"
           sed -i '/source "utils\/Kconfig"/d' Kconfig
           curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/main/kernel/setup.sh" | bash
           curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/mainline/Patches/syscall_hook_patches.sh" -o syscall_hook_patches.sh
           chmod +x syscall_hook_patches.sh
           bash syscall_hook_patches.sh
-          make O=out CC="clang" LLVM=1 Reno10_defconfig
+          make O=out CC="clang" LLVM=1 Reno10-Docker_defconfig
           ./scripts/config --file out/.config \
             -d CONFIG_KSU_TRACEPOINT_HOOK \
             -e CONFIG_KSU_MANUAL_HOOK
@@ -102,6 +110,13 @@ jobs:
             -e CONFIG_CGROUP_FREEZER=y \
             -e CONFIG_CGROUP_SCHED=y 
           # ==========================================
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_PIDS
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_IO
+          ./scripts/config --file out/.config --enable CONFIG_CPUSETS
+          ./scripts/config --file out/.config --enable CONFIG_MEMCG
+          ./scripts/config --file out/.config --enable CONFIG_DEVTMPFS
+          ./scripts/config --file out/.config --enable CONFIG_DEVTMPFS_MOUNT
+          ./scripts/config --file out/.config --enable CONFIG_OVERLAY_FS
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
         run: |
@@ -142,12 +157,6 @@ jobs:
           name: ReSukiSU_Reno10_Docker.img
           path: boot-ReSukiSU-Reno10-Docker-${{ env.BUILD_DATE }}.img
 
-      - name: Upload Flashable Kernel
-        uses: actions/upload-artifact@v6
-        with:
-          name: ReSukiSU_Reno10_Flashable
-          path: ReSukiSU-Reno10-Docker-Kernel.zip
-
       - name: Upload Release
         uses: softprops/action-gh-release@v2
         with:
@@ -158,7 +167,7 @@ jobs:
             - 核心版本: 5.4.254
             - 包含功能: ReSukiSU
             - 欢迎刷入芜夕wuxi的内核！祝你玩的愉快！
-            - 文件：分为带SuSFS的和不带SukiSU的，zip为ak3包，img文件为打包好的镜像，Docker为带Docker的
+            - 文件：分为带SuSFS的和不带SukiSU的，zip为ak3包，img文件为打包好的镜像，Docker为带Docker的,test为测试版
           files: |
               ReSukiSU-Reno10-Docker-${{ env.BUILD_DATE }}.zip
               boot-ReSukiSU-Reno10-Docker-${{ env.BUILD_DATE }}.img
