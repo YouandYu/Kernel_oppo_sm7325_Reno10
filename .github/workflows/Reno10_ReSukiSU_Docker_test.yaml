@@ -110,6 +110,13 @@ jobs:
             -e CONFIG_CGROUP_FREEZER=y \
             -e CONFIG_CGROUP_SCHED=y 
           # ==========================================
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_PIDS
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_IO
+          ./scripts/config --file out/.config --enable CONFIG_CPUSETS
+          ./scripts/config --file out/.config --enable CONFIG_MEMCG
+          ./scripts/config --file out/.config --enable CONFIG_DEVTMPFS
+          ./scripts/config --file out/.config --enable CONFIG_DEVTMPFS_MOUNT
+          ./scripts/config --file out/.config --enable CONFIG_OVERLAY_FS
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
         run: |
