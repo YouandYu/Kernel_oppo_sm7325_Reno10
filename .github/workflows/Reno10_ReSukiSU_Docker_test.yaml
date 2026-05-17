@@ -117,6 +117,14 @@ jobs:
           ./scripts/config --file out/.config --enable CONFIG_DEVTMPFS
           ./scripts/config --file out/.config --enable CONFIG_DEVTMPFS_MOUNT
           ./scripts/config --file out/.config --enable CONFIG_OVERLAY_FS
+          ./scripts/config --file out/.config --enable CONFIG_IP_VS_NFCT
+          ./scripts/config --file out/.config --enable CONFIG_IP_VS_PROTO_TCP
+          ./scripts/config --file out/.config --enable CONFIG_IP_VS_PROTO_UDP
+          ./scripts/config --file out/.config --enable CONFIG_IP_VS_RR
+          ./scripts/config --file out/.config --enable CONFIG_VXLAN
+          ./scripts/config --file out/.config --enable CONFIG_BRIDGE_VLAN_FILTERING
+          ./scripts/config --file out/.config --enable CONFIG_IPVLAN
+          ./scripts/config --file out/.config --enable CONFIG_MACVLAN
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
         run: |
