@@ -125,6 +125,13 @@ jobs:
           ./scripts/config --file out/.config --enable CONFIG_BRIDGE_VLAN_FILTERING
           ./scripts/config --file out/.config --enable CONFIG_IPVLAN
           ./scripts/config --file out/.config --enable CONFIG_MACVLAN
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_PERF
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_HUGETLB
+          ./scripts/config --file out/.config --enable CONFIG_NET_CLS_CGROUP
+          ./scripts/config --file out/.config --enable CONFIG_CGROUP_NET_PRIO
+          ./scripts/config --file out/.config --enable CONFIG_CFS_BANDWIDTH
+          ./scripts/config --file out/.config --enable CONFIG_FAIR_GROUP_SCHED
+          ./scripts/config --file out/.config --enable CONFIG_RT_GROUP_SCHED
           make O=out CC="clang" LLVM=1 -j$(nproc)
       - name: Package with AnyKernel3
         run: |
