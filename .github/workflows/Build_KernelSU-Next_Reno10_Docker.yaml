@@ -94,6 +94,7 @@ jobs:
           sed -i 's|<linux/pgtable.h>|<asm/pgtable.h>|g' drivers/kernelsu/feature/sucompat.c
           sed -i 's/strncpy_from_user_nofault/probe_user_read_str/g' drivers/kernelsu/feature/sucompat.c
           sed -i 's/probe_user_read_str/strncpy_from_user/g' drivers/kernelsu/feature/sucompat.c
+          sed -i 's/copy_to_kernel_nofault/probe_kernel_write/g' drivers/kernelsu/hook/arm64/patch_memory.c
           make O=out CC="clang" LLVM=1 Reno10-Docker_defconfig
           
           ./scripts/config --file out/.config \
