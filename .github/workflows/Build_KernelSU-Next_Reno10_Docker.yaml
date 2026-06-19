@@ -92,6 +92,7 @@ jobs:
           chmod +x syscall_hook_patches.sh
           bash syscall_hook_patches.sh
           sed -i 's|<linux/pgtable.h>|<asm/pgtable.h>|g' drivers/kernelsu/feature/sucompat.c
+          sed -i 's/strncpy_from_user_nofault/probe_user_read_str/g' drivers/kernelsu/feature/sucompat.c
           make O=out CC="clang" LLVM=1 Reno10-Docker_defconfig
           
           ./scripts/config --file out/.config \
